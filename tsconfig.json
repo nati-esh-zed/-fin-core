@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs", 
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "target": "ES2015",
+    "moduleResolution": "Bundler",
+    "sourceMap": false,
     "outDir": "dist"
   },
   "include": [
-    "./src/"
+    "src/**/*"
   ]
+
 }

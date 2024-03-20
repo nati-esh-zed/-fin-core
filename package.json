@@ -1,11 +1,13 @@
 {
   "name": "@nez-fin/core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Component based client-side renderer for dynamic websites and web-apps.",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean"
   },
   "repository": {
     "type": "git",
