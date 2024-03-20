@@ -1,4 +1,5 @@
 'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
 class EventHandler {
     constructor(params) {
         this.defHandler = undefined;
@@ -7,4 +8,4 @@ class EventHandler {
         this.handler = handler;
     }
 }
-export default EventHandler;
+exports.default = EventHandler;

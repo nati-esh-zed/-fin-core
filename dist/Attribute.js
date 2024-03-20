@@ -11,6 +11,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _Attribute_name, _Attribute_value, _Attribute_node;
+Object.defineProperty(exports, "__esModule", { value: true });
 class Attribute {
     constructor(params) {
         _Attribute_name.set(this, void 0);
@@ -37,4 +38,4 @@ class Attribute {
     }
 }
 _Attribute_name = new WeakMap(), _Attribute_value = new WeakMap(), _Attribute_node = new WeakMap();
-export default Attribute;
+exports.default = Attribute;

@@ -10,9 +10,13 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var _Variable_value, _Variable_references;
-import DynamicAttribute from './DynamicAttribute.js';
-import DynamicTextComponent from './DynamicTextComponent.js';
+Object.defineProperty(exports, "__esModule", { value: true });
+const DynamicAttribute_js_1 = __importDefault(require("./DynamicAttribute.js"));
+const DynamicTextComponent_js_1 = __importDefault(require("./DynamicTextComponent.js"));
 class Variable {
     constructor(initialValue) {
         _Variable_value.set(this, undefined);
@@ -77,10 +81,10 @@ class Variable {
         for (let [component, targets] of this.references) {
             for (let child of targets) {
                 if (child !== undefined) {
-                    if (child instanceof DynamicTextComponent) {
+                    if (child instanceof DynamicTextComponent_js_1.default) {
                         component.updateChild(child);
                     }
-                    else if (child instanceof DynamicAttribute) {
+                    else if (child instanceof DynamicAttribute_js_1.default) {
                         component.updateAttribute(child);
                     }
                 }
@@ -92,4 +96,4 @@ class Variable {
     }
 }
 _Variable_value = new WeakMap(), _Variable_references = new WeakMap();
-export default Variable;
+exports.default = Variable;

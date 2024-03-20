@@ -10,9 +10,13 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var _AsyncVariable_promise;
-import Variable from './Variable.js';
-class AsyncVariable extends Variable {
+Object.defineProperty(exports, "__esModule", { value: true });
+const Variable_js_1 = __importDefault(require("./Variable.js"));
+class AsyncVariable extends Variable_js_1.default {
     constructor(promise, initialValue) {
         super(initialValue);
         _AsyncVariable_promise.set(this, void 0);
@@ -48,4 +52,4 @@ class AsyncVariable extends Variable {
     }
 }
 _AsyncVariable_promise = new WeakMap();
-export default AsyncVariable;
+exports.default = AsyncVariable;

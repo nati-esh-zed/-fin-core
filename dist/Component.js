@@ -1,8 +1,13 @@
 'use strict';
-import Attribute from './Attribute.js';
-import TextComponent from './TextComponent.js';
-import DynamicTextComponent from './DynamicTextComponent.js';
-import DynamicAttribute from './DynamicAttribute.js';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.chain = exports.inheritParams = void 0;
+const Attribute_js_1 = __importDefault(require("./Attribute.js"));
+const TextComponent_js_1 = __importDefault(require("./TextComponent.js"));
+const DynamicTextComponent_js_1 = __importDefault(require("./DynamicTextComponent.js"));
+const DynamicAttribute_js_1 = __importDefault(require("./DynamicAttribute.js"));
 class Component {
     constructor(params = {}) {
         const { chain, tag, attributes, children, update, render, updateChild, renderChild } = params;
@@ -56,14 +61,14 @@ class Component {
     cloneAttribute(attribute) {
         const { name, value } = attribute;
         let clonedAttribute;
-        if (attribute instanceof DynamicAttribute) {
-            clonedAttribute = new DynamicAttribute({
+        if (attribute instanceof DynamicAttribute_js_1.default) {
+            clonedAttribute = new DynamicAttribute_js_1.default({
                 name: name,
                 value: value
             });
         }
         else {
-            clonedAttribute = new Attribute({
+            clonedAttribute = new Attribute_js_1.default({
                 name: name,
                 value: value
             });
@@ -87,7 +92,7 @@ class Component {
             this.attributes = new Array;
         for (let name of Object.keys(attributes)) {
             if (!this.hasAttribute(name)) {
-                const attribute = new Attribute({ name: name, value: attributes[name] });
+                const attribute = new Attribute_js_1.default({ name: name, value: attributes[name] });
                 const resAttribute = this._mProcessAttribute(attribute);
                 if (resAttribute !== undefined)
                     this.attributes.push(resAttribute);
@@ -99,16 +104,16 @@ class Component {
             this.children = new Array;
             for (let child of children) {
                 if (child instanceof Component ||
-                    child instanceof TextComponent) {
+                    child instanceof TextComponent_js_1.default) {
                     this.children.push(child);
                 }
                 else if (typeof child === 'string' ||
                     typeof child === 'undefined') {
-                    const textComponent = new TextComponent(child || '');
+                    const textComponent = new TextComponent_js_1.default(child || '');
                     this.children.push(textComponent);
                 }
                 else if (typeof child === 'function') {
-                    const dynamicTextComponent = new DynamicTextComponent(child);
+                    const dynamicTextComponent = new DynamicTextComponent_js_1.default(child);
                     this.children.push(dynamicTextComponent);
                 }
             }
@@ -151,7 +156,7 @@ class Component {
                     child.render();
                     this.node.appendChild(child.node);
                 }
-                else if (child instanceof TextComponent) {
+                else if (child instanceof TextComponent_js_1.default) {
                     this.node.appendChild(child.node);
                 }
             }
@@ -186,7 +191,7 @@ class Component {
             return undefined;
         }
         else if (typeof attribute.value === 'function') {
-            const dynamicAttribute = new DynamicAttribute({
+            const dynamicAttribute = new DynamicAttribute_js_1.default({
                 name: attribute.name,
                 value: attribute.value
             });
@@ -195,7 +200,7 @@ class Component {
         return attribute;
     }
     _mUpdateAttribute(attribute) {
-        if (attribute instanceof DynamicAttribute)
+        if (attribute instanceof DynamicAttribute_js_1.default)
             attribute.update(this);
         this.node.attributes.setNamedItem(attribute.node);
     }
@@ -203,7 +208,7 @@ class Component {
         if (child instanceof Component) {
             child.update();
         }
-        else if (child instanceof DynamicTextComponent) {
+        else if (child instanceof DynamicTextComponent_js_1.default) {
             child.update(this);
         }
         return child;
@@ -220,7 +225,7 @@ class Component {
 }
 Component.SET_NODE_FID = false;
 Component.ID_TOP = 0;
-export function inheritParams(params, overrideParams) {
+function inheritParams(params, overrideParams) {
     return Object.assign(Object.assign(Object.assign({}, params), overrideParams), { attributes: Object.assign(Object.assign(Object.assign({}, params.attributes), overrideParams.attributes), (params.attributes && 'style' in params.attributes &&
             overrideParams.attributes && 'style' in overrideParams.attributes
             ? {
@@ -228,7 +233,8 @@ export function inheritParams(params, overrideParams) {
             }
             : {})) });
 }
-export function chain(name, params = {}, overrideParams) {
+exports.inheritParams = inheritParams;
+function chain(name, params = {}, overrideParams) {
     const rParams = overrideParams
         ? inheritParams(params, overrideParams)
         : params;
@@ -237,4 +243,5 @@ export function chain(name, params = {}, overrideParams) {
         : rParams.chain.concat(name);
     return rParams;
 }
-export default Component;
+exports.chain = chain;
+exports.default = Component;

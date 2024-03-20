@@ -1,4 +1,7 @@
-export class Manager {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Manager = void 0;
+class Manager {
     constructor(rootElement, rootComponent) {
         this.rootElement = rootElement;
         this.rootComponent = rootComponent;
@@ -13,4 +16,5 @@ export class Manager {
         return this;
     }
 }
-export default Manager;
+exports.Manager = Manager;
+exports.default = Manager;
