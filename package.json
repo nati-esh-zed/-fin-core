@@ -1,0 +1,29 @@
+{
+  "name": "@fin/core",
+  "version": "1.0.0",
+  "description": "Component based client-side renderer for dynamic websites and web-apps.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nati-esh-zed/-fin-core.git"
+  },
+  "keywords": [
+    "component",
+    "renderer",
+    "dynamic",
+    "engine"
+  ],
+  "author": "Natnael Eshetu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nati-esh-zed/-fin-core/issues"
+  },
+  "homepage": "https://github.com/nati-esh-zed/-fin-core#readme",
+  "devDependencies": {
+    "typescript": "^5.4.2"
+  }
+}
