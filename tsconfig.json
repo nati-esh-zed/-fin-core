@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "noEmitOnError": true,
     "target": "ES2015",
     "moduleResolution": "Bundler",
     "sourceMap": false,
-    "outDir": "dist"
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "declarationMap": true,
+    "declaration": true
   },
   "include": [
     "src/**/*"

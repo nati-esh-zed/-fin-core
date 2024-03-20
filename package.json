@@ -6,17 +6,13 @@
   "main": "./dist/index.js",
   "exports": {
     ".": "./dist/index.js",
-    "./Attribute": "./dist/Attribute.js",
-    "./DynamicAttribute": "./dist/DynamicAttribute.js",
-    "./Component": "./dist/Component.js",
-    "./TextComponent": "./dist/TextComponent.js",
-    "./DynamicTextComponent": "./dist/DynamicTextComponent.js",
-    "./Html": "./dist/Html.js",
-    "./DynamicHtml": "./dist/DynamicHtml.js",
-    "./EventHandler": "./dist/EventHandler.js",
-    "./Variable": "./dist/Variable.js",
-    "./AsyncVariable": "./dist/AsyncVariable.js",
-    "./Manager": "./dist/Manager.js"
+    "./index": "./dist/index.js",
+    "./index.js": "./dist/index.js",
+    "./index.ts": "./src/index.ts",
+    "./*": "./dist/*.js",
+    "./*.js": "./dist/*.js",
+    "./*.ts": "./src/*.ts",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
