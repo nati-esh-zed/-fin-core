@@ -3,7 +3,21 @@
   "version": "1.0.3",
   "description": "Component based client-side renderer for dynamic websites and web-apps.",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./Attribute": "./dist/Attribute.js",
+    "./DynamicAttribute": "./dist/DynamicAttribute.js",
+    "./Component": "./dist/Component.js",
+    "./TextComponent": "./dist/TextComponent.js",
+    "./DynamicTextComponent": "./dist/DynamicTextComponent.js",
+    "./Html": "./dist/Html.js",
+    "./DynamicHtml": "./dist/DynamicHtml.js",
+    "./EventHandler": "./dist/EventHandler.js",
+    "./Variable": "./dist/Variable.js",
+    "./AsyncVariable": "./dist/AsyncVariable.js",
+    "./Manager": "./dist/Manager.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",
@@ -26,6 +40,6 @@
   },
   "homepage": "https://github.com/nati-esh-zed/-fin-core#readme",
   "devDependencies": {
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   }
 }
