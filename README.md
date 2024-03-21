@@ -54,7 +54,7 @@ class App extends Component {
   }
 }
 
-new Manager(
+new Engine(
   document.getElementById('root'), 
   App()
 )
