@@ -2,7 +2,7 @@
 // StyleAttributeValueType
 type SAVT = string;
 
-export interface StyleAttributeType {
+export interface StyleAttributesType {
   WebkitLineClamp: SAVT,
   accentColor: SAVT,
   alignContent: SAVT,
@@ -441,4 +441,4 @@ export interface StyleAttributeType {
 
 }
 
-export default StyleAttributeType;
+export default StyleAttributesType;

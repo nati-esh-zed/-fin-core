@@ -1,4 +1,4 @@
-export declare enum InputTypes {
+export declare enum InputType {
     button = 0,
     checkbox = 1,
     color = 2,
@@ -22,5 +22,5 @@ export declare enum InputTypes {
     url = 20,
     week = 21
 }
-export default InputTypes;
+export default InputType;
 //# sourceMappingURL=InputType.d.ts.map

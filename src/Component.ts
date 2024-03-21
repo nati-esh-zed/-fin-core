@@ -5,7 +5,7 @@ import EventHandler from './EventHandler.js';
 import TextComponent from './TextComponent.js';
 import DynamicTextComponent, { ContentFn } from './DynamicTextComponent.js';
 import DynamicAttribute from './DynamicAttribute.js';
-import AttributeType from './types/AttributeType.js';
+import AttributeType from './types/AttributesType.js';
 
 export type ComponentAttributeType   = &Attribute|&DynamicAttribute;
 export type ComponentAttributesType  = &AttributeType;
