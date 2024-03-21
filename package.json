@@ -1,6 +1,6 @@
 {
   "name": "@nez-fin/core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Component based client-side renderer for dynamic websites and web-apps.",
   "type": "commonjs",
   "module": "./dist/index.js",
