@@ -12,6 +12,7 @@
     "./dist/*": "./dist/*",
     "./src/*": "./src/*",
     "./*": "./dist/*.js",
+    "./types/*": "./dist/types/*.js",
     "./package.json": "./package.json"
   },
   "scripts": {

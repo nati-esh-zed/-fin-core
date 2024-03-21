@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Manager = void 0;
-class Manager {
+exports.Engine = void 0;
+class Engine {
     constructor(rootElement, rootComponent) {
         this.rootElement = rootElement;
         this.rootComponent = rootComponent;
@@ -16,5 +16,5 @@ class Manager {
         return this;
     }
 }
-exports.Manager = Manager;
-exports.default = Manager;
+exports.Engine = Engine;
+exports.default = Engine;

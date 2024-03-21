@@ -14,7 +14,7 @@ const DynamicHtml_js_1 = __importDefault(require("./DynamicHtml.js"));
 const EventHandler_js_1 = __importDefault(require("./EventHandler.js"));
 const Variable_js_1 = __importDefault(require("./Variable.js"));
 const AsyncVariable_js_1 = __importDefault(require("./AsyncVariable.js"));
-const Manager_js_1 = __importDefault(require("./Manager.js"));
+const Engine_js_1 = __importDefault(require("./Engine.js"));
 exports.VERSION = "1.0.4";
 exports.default = {
     VERSION: exports.VERSION,
@@ -28,5 +28,5 @@ exports.default = {
     EventHandler: EventHandler_js_1.default,
     Variable: Variable_js_1.default,
     AsyncVariable: AsyncVariable_js_1.default,
-    Manager: Manager_js_1.default
+    Engine: Engine_js_1.default
 };

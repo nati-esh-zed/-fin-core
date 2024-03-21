@@ -3,10 +3,9 @@ import EventHandler from './EventHandler.js';
 import TextComponent from './TextComponent.js';
 import DynamicTextComponent, { ContentFn } from './DynamicTextComponent.js';
 import DynamicAttribute from './DynamicAttribute.js';
+import AttributeType from './types/AttributeType.js';
 export type ComponentAttributeType = Attribute | DynamicAttribute;
-export type ComponentAttributesType = Object & {
-    style?: Object;
-};
+export type ComponentAttributesType = AttributeType;
 export type ComponentStoredChildType = Component | TextComponent | DynamicTextComponent;
 export type ComponentChildType = Component | TextComponent | DynamicTextComponent | ContentFn | string | undefined;
 export type ComponentChildrenType = Array<ComponentChildType>;
@@ -41,20 +40,21 @@ export interface ComponentAlterParams {
     renderChild?: RenderChildFn;
 }
 declare class Component {
+    #private;
     static SET_NODE_FID: boolean;
     static ID_TOP: number;
-    id: string;
-    name: string;
-    chain: Array<string>;
-    tag: string;
-    attributes?: Array<ComponentAttributeType>;
-    children?: Array<ComponentStoredChildType>;
-    eventHandlers?: Array<EventHandler>;
     updateCb?: UpdateFn;
     renderCb?: RenderFn;
     updateChildCb?: UpdateChildFn;
     renderChildCb?: RenderChildFn;
-    node: HTMLElement;
+    get id(): string;
+    get name(): string;
+    get chain(): string[];
+    get tag(): string;
+    get attributes(): ComponentAttributeType[] | undefined;
+    get children(): ComponentStoredChildType[] | undefined;
+    get eventHandlers(): EventHandler[] | undefined;
+    get node(): HTMLElement;
     constructor(params?: Params);
     alter(params: ComponentAlterParams): this;
     cloneAttribute(attribute: ComponentAttributeType): any;
@@ -73,7 +73,23 @@ declare class Component {
     private _mUpdate;
     private static _sGetChain;
 }
-export declare function inheritParams(params: Params, overrideParams: Params): Params;
-export declare function chain(name: string, params?: Params, overrideParams?: Params): Params;
+/**
+ * Merges the two parameter ojects with the `higherPriorityParams`
+ * overriding properties in `params`.
+ *
+ * @param higherPriorityParams
+ * @param params
+ * @returns the merged Params object
+ */
+export declare function merge(higherPriorityParams: Params, params: Params): Params;
+/**
+ * Calls `merge` then appends `name` to the chain
+ *
+ * @param name
+ * @param higherPriorityParams
+ * @param params
+ * @returns the chained Params object
+ */
+export declare function chain(name: string, higherPriorityParams?: Params, params?: Params): Params;
 export default Component;
 //# sourceMappingURL=Component.d.ts.map

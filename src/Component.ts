@@ -3,13 +3,12 @@
 import Attribute from './Attribute.js';
 import EventHandler from './EventHandler.js';
 import TextComponent from './TextComponent.js';
-import DynamicTextComponent, { 
-  ContentFn
-} from './DynamicTextComponent.js';
+import DynamicTextComponent, { ContentFn } from './DynamicTextComponent.js';
 import DynamicAttribute from './DynamicAttribute.js';
+import AttributeType from './types/AttributeType.js';
 
 export type ComponentAttributeType   = &Attribute|&DynamicAttribute;
-export type ComponentAttributesType  = &Object&{style?: &Object};
+export type ComponentAttributesType  = &AttributeType;
 export type ComponentStoredChildType = &Component|&TextComponent|&DynamicTextComponent;
 export type ComponentChildType       = 
   &Component|&TextComponent|&DynamicTextComponent|&ContentFn|string|undefined;
@@ -44,51 +43,60 @@ class Component {
   static SET_NODE_FID = false;
   static ID_TOP: number = 0;
 
-  id: string;
-  name: string;
-  chain: Array<string>;
-  tag: string;
-  attributes?: Array<ComponentAttributeType>;
-  children?: Array<ComponentStoredChildType>;
-  eventHandlers?: Array<EventHandler>
+  #id: string;
+  #name: string;
+  #chain: Array<string>;
+  #tag: string;
+  #attributes?: Array<ComponentAttributeType>;
+  #children?: Array<ComponentStoredChildType>;
+  #eventHandlers?: Array<EventHandler>
   updateCb?: UpdateFn;
   renderCb?: RenderFn;
   updateChildCb?: UpdateChildFn;
   renderChildCb?: RenderChildFn;
 
-  node: HTMLElement;
+  #node: HTMLElement;
   
+  get id() { return this.#id; }
+  get name() { return this.#name; }
+  get chain() { return this.#chain; }
+  get tag() { return this.#tag; }
+  get attributes() { return this.#attributes; }
+  get children() { return this.#children; }
+  get eventHandlers() { return this.#eventHandlers; }
+  get node() { return this.#node; }
+
   constructor(params: Params = {}) {
     const {chain, tag, attributes, children, 
       update, render, updateChild, renderChild} = params;
     const tag_ = tag ?? 'div';
-    this.id = 'fid'+(++Component.ID_TOP);
-    this.name = this.constructor.name;
-    this.chain = Component._sGetChain(this);
-    this.tag = tag_;
+    this.#id = 'fid'+(++Component.ID_TOP);
+    this.#name = this.constructor.name;
+    this.#chain = chain 
+      ? chain.concat(Component._sGetChain(this))
+      : Component._sGetChain(this);
+    this.#tag = tag_;
     this.updateCb = update;
     this.renderCb = render;
     this.updateChildCb = updateChild;
     this.renderChildCb = renderChild;
-    this.node = document.createElement(this.tag);
+    this.#node = document.createElement(this.#tag);
     // set attributes from params
     if(attributes) {
       this.setAttributes(attributes);
       this.updateAttributes();
     }
     if(Component.SET_NODE_FID) {
-      this.node.setAttribute('fid', this.id);
+      this.#node.setAttribute('fid', this.#id);
     }
     // children
     if(children)
       this.setChildren(children);
     // add the names of each inherited Component to class lists 
-    if(chain)
-      this.chain = this.chain.concat(chain);
-    for(let componentName of this.chain) {
-      this.node.classList.add(componentName);
+    for(let componentName of this.#chain) {
+      this.#node.classList.add(componentName);
     }
-    this.node.classList.add('Component');
+    this.#node.classList.add('Component');
     return this;
   }
 
@@ -137,54 +145,54 @@ class Component {
   }
 
   hasAttribute(name: string) {
-    return this.attributes && 
-      this.attributes.findIndex(
+    return this.#attributes && 
+      this.#attributes.findIndex(
         (attribute) => attribute.name === name) !== -1;
   }
 
   setAttributes(attributes: ComponentAttributesType) {
-    if(!this.attributes) 
-      this.attributes = new Array<ComponentAttributeType>;
+    if(!this.#attributes) 
+      this.#attributes = new Array<ComponentAttributeType>;
       for(let name of Object.keys(attributes)) {
         if(!this.hasAttribute(name)) {
           const attribute = new Attribute({name: name, value: attributes[name]});
           const resAttribute = this._mProcessAttribute(attribute);
           if(resAttribute !== undefined)
-            this.attributes.push(resAttribute);
+            this.#attributes.push(resAttribute);
         }
     }
   }
 
   setChildren(children?: ComponentChildrenType) {
     if(children) {
-      this.children = new Array<ComponentStoredChildType>;
+      this.#children = new Array<ComponentStoredChildType>;
       for(let child of children) {
         if(child instanceof Component ||
           child instanceof TextComponent) 
         {
-          this.children.push(child);
+          this.#children.push(child);
         } else if(typeof child === 'string' ||
           typeof child === 'undefined') 
         {
           const textComponent = new TextComponent(child || '');
-          this.children.push(textComponent);
+          this.#children.push(textComponent);
         } else if(typeof child === 'function') {
           const dynamicTextComponent = new DynamicTextComponent(child);
-          this.children.push(dynamicTextComponent);
+          this.#children.push(dynamicTextComponent);
         }
       }
     }
   }
 
   updateAttribute(attribute: ComponentAttributeType) {
-    if(!this.attributes || (this.attributes.indexOf(attribute) === -1))
+    if(!this.#attributes || (this.#attributes.indexOf(attribute) === -1))
       throw 'attribute does not belong to the component';
     this._mUpdateAttribute(attribute);
   }
 
   updateAttributes() {
-    if(this.attributes) {
-      for(let attribute of this.attributes) {
+    if(this.#attributes) {
+      for(let attribute of this.#attributes) {
         this._mUpdateAttribute(attribute);
       }
     }
@@ -194,8 +202,8 @@ class Component {
     if(this.updateCb && !this.updateCb())
       return false;
     this.updateAttributes();
-    if(this.children) {
-      for(let child of this.children) {
+    if(this.#children) {
+      for(let child of this.#children) {
         this._mUpdate(child);
       }
     }
@@ -203,37 +211,37 @@ class Component {
   }
 
   updateChild(child: ComponentStoredChildType) {
-    if(!this.children || (this.children.indexOf(child) === -1))
+    if(!this.#children || (this.#children.indexOf(child) === -1))
       throw 'child does not belong to the component';
     this._mUpdate(child);
   }
 
   render() {
-    if(this.children && 
+    if(this.#children && 
       (!this.renderCb || this.renderCb()))
     {
-      this.node.replaceChildren();
-      for(let child of this.children) {
+      this.#node.replaceChildren();
+      for(let child of this.#children) {
         if(child instanceof Component) {
           child.render();
-          this.node.appendChild(child.node);
+          this.#node.appendChild(child.node);
         } else if(child instanceof TextComponent) {
-          this.node.appendChild(child.node);
+          this.#node.appendChild(child.node);
         }
       }
     }
-    return this.node; 
+    return this.#node; 
   }
 
   addEventHandler(eventHandler: EventHandler) {
-    if(!this.eventHandlers)
-      this.eventHandlers = new Array<EventHandler>;
-    if(this.eventHandlers) {
+    if(!this.#eventHandlers)
+      this.#eventHandlers = new Array<EventHandler>;
+    if(this.#eventHandlers) {
       eventHandler.defHandler = (event: Event) => { eventHandler.handler(this, event); };
       const {type, defHandler} = eventHandler;
-      this.eventHandlers.push(eventHandler);
-      this.node.removeEventListener(type, defHandler);
-      this.node.addEventListener(type, defHandler);
+      this.#eventHandlers.push(eventHandler);
+      this.#node.removeEventListener(type, defHandler);
+      this.#node.addEventListener(type, defHandler);
     }
   }
 
@@ -250,7 +258,7 @@ class Component {
       typeof attribute.value === 'object') 
     {
       for(let key of Object.keys(attribute.value))
-        this.node.style[key] = attribute.value[key];
+        this.#node.style[key] = attribute.value[key];
       return undefined;
     } else if(typeof attribute.value === 'function') {
       const dynamicAttribute = new DynamicAttribute({
@@ -265,7 +273,7 @@ class Component {
   private _mUpdateAttribute(attribute: ComponentAttributeType) {
     if(attribute instanceof DynamicAttribute)
       attribute.update(this);
-    this.node.attributes.setNamedItem(attribute.node);
+    this.#node.attributes.setNamedItem(attribute.node);
   }
 
   private _mUpdate(child: ComponentStoredChildType) {
@@ -293,37 +301,58 @@ class Component {
   
 }
 
-export function inheritParams(
-  params: Params,
-  overrideParams: Params
+/**
+ * Merges the two parameter ojects with the `higherPriorityParams`
+ * overriding properties in `params`.
+ * 
+ * @param higherPriorityParams 
+ * @param params 
+ * @returns the merged Params object
+ */
+export function merge(
+  higherPriorityParams: Params,
+  params: Params
 ) : Params
 {
   return {
     ...params,
-    ...overrideParams,
+    ...higherPriorityParams,
+    chain: (params.chain && higherPriorityParams.chain
+      ? params.chain.concat(higherPriorityParams.chain)
+      : (params.chain ?? higherPriorityParams.chain)
+    ),
     attributes: { 
       ...params.attributes, 
-      ...overrideParams.attributes,
+      ...higherPriorityParams.attributes,
       ...(params.attributes && 'style' in params.attributes && 
-          overrideParams.attributes && 'style' in overrideParams.attributes
+          higherPriorityParams.attributes && 'style' in higherPriorityParams.attributes
         ? {
           style: {
-            ...params.attributes['style'],
-            ...overrideParams.attributes['style']
+            ...params.attributes.style,
+            ...higherPriorityParams.attributes.style
           }
         }
         : {})
-    }
+    },
   }! as Params;
 }
 
+/**
+ * Calls `merge` then appends `name` to the chain 
+ * 
+ * @param name 
+ * @param higherPriorityParams 
+ * @param params 
+ * @returns the chained Params object
+ */
 export function chain(name: string, 
-  params: Params = {},
-  overrideParams?: Params
+  higherPriorityParams?: Params,
+  params: Params = {}
 ) : Params 
 {
-  const rParams = overrideParams
-    ? inheritParams(params, overrideParams)
+  console.assert(!!name && typeof name === 'string', 'name must be a non empty string');
+  const rParams = higherPriorityParams
+    ? merge(params, higherPriorityParams)
     : params;
   rParams.chain = rParams.chain === undefined
     ? [name]

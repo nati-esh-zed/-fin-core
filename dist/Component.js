@@ -1,44 +1,72 @@
 'use strict';
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _Component_id, _Component_name, _Component_chain, _Component_tag, _Component_attributes, _Component_children, _Component_eventHandlers, _Component_node;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.chain = exports.inheritParams = void 0;
+exports.chain = exports.merge = void 0;
 const Attribute_js_1 = __importDefault(require("./Attribute.js"));
 const TextComponent_js_1 = __importDefault(require("./TextComponent.js"));
 const DynamicTextComponent_js_1 = __importDefault(require("./DynamicTextComponent.js"));
 const DynamicAttribute_js_1 = __importDefault(require("./DynamicAttribute.js"));
 class Component {
+    get id() { return __classPrivateFieldGet(this, _Component_id, "f"); }
+    get name() { return __classPrivateFieldGet(this, _Component_name, "f"); }
+    get chain() { return __classPrivateFieldGet(this, _Component_chain, "f"); }
+    get tag() { return __classPrivateFieldGet(this, _Component_tag, "f"); }
+    get attributes() { return __classPrivateFieldGet(this, _Component_attributes, "f"); }
+    get children() { return __classPrivateFieldGet(this, _Component_children, "f"); }
+    get eventHandlers() { return __classPrivateFieldGet(this, _Component_eventHandlers, "f"); }
+    get node() { return __classPrivateFieldGet(this, _Component_node, "f"); }
     constructor(params = {}) {
+        _Component_id.set(this, void 0);
+        _Component_name.set(this, void 0);
+        _Component_chain.set(this, void 0);
+        _Component_tag.set(this, void 0);
+        _Component_attributes.set(this, void 0);
+        _Component_children.set(this, void 0);
+        _Component_eventHandlers.set(this, void 0);
+        _Component_node.set(this, void 0);
         const { chain, tag, attributes, children, update, render, updateChild, renderChild } = params;
         const tag_ = tag !== null && tag !== void 0 ? tag : 'div';
-        this.id = 'fid' + (++Component.ID_TOP);
-        this.name = this.constructor.name;
-        this.chain = Component._sGetChain(this);
-        this.tag = tag_;
+        __classPrivateFieldSet(this, _Component_id, 'fid' + (++Component.ID_TOP), "f");
+        __classPrivateFieldSet(this, _Component_name, this.constructor.name, "f");
+        __classPrivateFieldSet(this, _Component_chain, chain
+            ? chain.concat(Component._sGetChain(this))
+            : Component._sGetChain(this), "f");
+        __classPrivateFieldSet(this, _Component_tag, tag_, "f");
         this.updateCb = update;
         this.renderCb = render;
         this.updateChildCb = updateChild;
         this.renderChildCb = renderChild;
-        this.node = document.createElement(this.tag);
+        __classPrivateFieldSet(this, _Component_node, document.createElement(__classPrivateFieldGet(this, _Component_tag, "f")), "f");
         // set attributes from params
         if (attributes) {
             this.setAttributes(attributes);
             this.updateAttributes();
         }
         if (Component.SET_NODE_FID) {
-            this.node.setAttribute('fid', this.id);
+            __classPrivateFieldGet(this, _Component_node, "f").setAttribute('fid', __classPrivateFieldGet(this, _Component_id, "f"));
         }
         // children
         if (children)
             this.setChildren(children);
         // add the names of each inherited Component to class lists 
-        if (chain)
-            this.chain = this.chain.concat(chain);
-        for (let componentName of this.chain) {
-            this.node.classList.add(componentName);
+        for (let componentName of __classPrivateFieldGet(this, _Component_chain, "f")) {
+            __classPrivateFieldGet(this, _Component_node, "f").classList.add(componentName);
         }
-        this.node.classList.add('Component');
+        __classPrivateFieldGet(this, _Component_node, "f").classList.add('Component');
         return this;
     }
     alter(params) {
@@ -84,49 +112,49 @@ class Component {
         return clonedAttributes;
     }
     hasAttribute(name) {
-        return this.attributes &&
-            this.attributes.findIndex((attribute) => attribute.name === name) !== -1;
+        return __classPrivateFieldGet(this, _Component_attributes, "f") &&
+            __classPrivateFieldGet(this, _Component_attributes, "f").findIndex((attribute) => attribute.name === name) !== -1;
     }
     setAttributes(attributes) {
-        if (!this.attributes)
-            this.attributes = new Array;
+        if (!__classPrivateFieldGet(this, _Component_attributes, "f"))
+            __classPrivateFieldSet(this, _Component_attributes, new Array, "f");
         for (let name of Object.keys(attributes)) {
             if (!this.hasAttribute(name)) {
                 const attribute = new Attribute_js_1.default({ name: name, value: attributes[name] });
                 const resAttribute = this._mProcessAttribute(attribute);
                 if (resAttribute !== undefined)
-                    this.attributes.push(resAttribute);
+                    __classPrivateFieldGet(this, _Component_attributes, "f").push(resAttribute);
             }
         }
     }
     setChildren(children) {
         if (children) {
-            this.children = new Array;
+            __classPrivateFieldSet(this, _Component_children, new Array, "f");
             for (let child of children) {
                 if (child instanceof Component ||
                     child instanceof TextComponent_js_1.default) {
-                    this.children.push(child);
+                    __classPrivateFieldGet(this, _Component_children, "f").push(child);
                 }
                 else if (typeof child === 'string' ||
                     typeof child === 'undefined') {
                     const textComponent = new TextComponent_js_1.default(child || '');
-                    this.children.push(textComponent);
+                    __classPrivateFieldGet(this, _Component_children, "f").push(textComponent);
                 }
                 else if (typeof child === 'function') {
                     const dynamicTextComponent = new DynamicTextComponent_js_1.default(child);
-                    this.children.push(dynamicTextComponent);
+                    __classPrivateFieldGet(this, _Component_children, "f").push(dynamicTextComponent);
                 }
             }
         }
     }
     updateAttribute(attribute) {
-        if (!this.attributes || (this.attributes.indexOf(attribute) === -1))
+        if (!__classPrivateFieldGet(this, _Component_attributes, "f") || (__classPrivateFieldGet(this, _Component_attributes, "f").indexOf(attribute) === -1))
             throw 'attribute does not belong to the component';
         this._mUpdateAttribute(attribute);
     }
     updateAttributes() {
-        if (this.attributes) {
-            for (let attribute of this.attributes) {
+        if (__classPrivateFieldGet(this, _Component_attributes, "f")) {
+            for (let attribute of __classPrivateFieldGet(this, _Component_attributes, "f")) {
                 this._mUpdateAttribute(attribute);
             }
         }
@@ -135,43 +163,43 @@ class Component {
         if (this.updateCb && !this.updateCb())
             return false;
         this.updateAttributes();
-        if (this.children) {
-            for (let child of this.children) {
+        if (__classPrivateFieldGet(this, _Component_children, "f")) {
+            for (let child of __classPrivateFieldGet(this, _Component_children, "f")) {
                 this._mUpdate(child);
             }
         }
         return true;
     }
     updateChild(child) {
-        if (!this.children || (this.children.indexOf(child) === -1))
+        if (!__classPrivateFieldGet(this, _Component_children, "f") || (__classPrivateFieldGet(this, _Component_children, "f").indexOf(child) === -1))
             throw 'child does not belong to the component';
         this._mUpdate(child);
     }
     render() {
-        if (this.children &&
+        if (__classPrivateFieldGet(this, _Component_children, "f") &&
             (!this.renderCb || this.renderCb())) {
-            this.node.replaceChildren();
-            for (let child of this.children) {
+            __classPrivateFieldGet(this, _Component_node, "f").replaceChildren();
+            for (let child of __classPrivateFieldGet(this, _Component_children, "f")) {
                 if (child instanceof Component) {
                     child.render();
-                    this.node.appendChild(child.node);
+                    __classPrivateFieldGet(this, _Component_node, "f").appendChild(child.node);
                 }
                 else if (child instanceof TextComponent_js_1.default) {
-                    this.node.appendChild(child.node);
+                    __classPrivateFieldGet(this, _Component_node, "f").appendChild(child.node);
                 }
             }
         }
-        return this.node;
+        return __classPrivateFieldGet(this, _Component_node, "f");
     }
     addEventHandler(eventHandler) {
-        if (!this.eventHandlers)
-            this.eventHandlers = new Array;
-        if (this.eventHandlers) {
+        if (!__classPrivateFieldGet(this, _Component_eventHandlers, "f"))
+            __classPrivateFieldSet(this, _Component_eventHandlers, new Array, "f");
+        if (__classPrivateFieldGet(this, _Component_eventHandlers, "f")) {
             eventHandler.defHandler = (event) => { eventHandler.handler(this, event); };
             const { type, defHandler } = eventHandler;
-            this.eventHandlers.push(eventHandler);
-            this.node.removeEventListener(type, defHandler);
-            this.node.addEventListener(type, defHandler);
+            __classPrivateFieldGet(this, _Component_eventHandlers, "f").push(eventHandler);
+            __classPrivateFieldGet(this, _Component_node, "f").removeEventListener(type, defHandler);
+            __classPrivateFieldGet(this, _Component_node, "f").addEventListener(type, defHandler);
         }
     }
     _mProcessAttribute(attribute) {
@@ -187,7 +215,7 @@ class Component {
         else if (attribute.name === 'style' &&
             typeof attribute.value === 'object') {
             for (let key of Object.keys(attribute.value))
-                this.node.style[key] = attribute.value[key];
+                __classPrivateFieldGet(this, _Component_node, "f").style[key] = attribute.value[key];
             return undefined;
         }
         else if (typeof attribute.value === 'function') {
@@ -202,7 +230,7 @@ class Component {
     _mUpdateAttribute(attribute) {
         if (attribute instanceof DynamicAttribute_js_1.default)
             attribute.update(this);
-        this.node.attributes.setNamedItem(attribute.node);
+        __classPrivateFieldGet(this, _Component_node, "f").attributes.setNamedItem(attribute.node);
     }
     _mUpdate(child) {
         if (child instanceof Component) {
@@ -223,20 +251,41 @@ class Component {
         return prototypes;
     }
 }
+_Component_id = new WeakMap(), _Component_name = new WeakMap(), _Component_chain = new WeakMap(), _Component_tag = new WeakMap(), _Component_attributes = new WeakMap(), _Component_children = new WeakMap(), _Component_eventHandlers = new WeakMap(), _Component_node = new WeakMap();
 Component.SET_NODE_FID = false;
 Component.ID_TOP = 0;
-function inheritParams(params, overrideParams) {
-    return Object.assign(Object.assign(Object.assign({}, params), overrideParams), { attributes: Object.assign(Object.assign(Object.assign({}, params.attributes), overrideParams.attributes), (params.attributes && 'style' in params.attributes &&
-            overrideParams.attributes && 'style' in overrideParams.attributes
+/**
+ * Merges the two parameter ojects with the `higherPriorityParams`
+ * overriding properties in `params`.
+ *
+ * @param higherPriorityParams
+ * @param params
+ * @returns the merged Params object
+ */
+function merge(higherPriorityParams, params) {
+    var _a;
+    return Object.assign(Object.assign(Object.assign({}, params), higherPriorityParams), { chain: (params.chain && higherPriorityParams.chain
+            ? params.chain.concat(higherPriorityParams.chain)
+            : ((_a = params.chain) !== null && _a !== void 0 ? _a : higherPriorityParams.chain)), attributes: Object.assign(Object.assign(Object.assign({}, params.attributes), higherPriorityParams.attributes), (params.attributes && 'style' in params.attributes &&
+            higherPriorityParams.attributes && 'style' in higherPriorityParams.attributes
             ? {
-                style: Object.assign(Object.assign({}, params.attributes['style']), overrideParams.attributes['style'])
+                style: Object.assign(Object.assign({}, params.attributes.style), higherPriorityParams.attributes.style)
             }
             : {})) });
 }
-exports.inheritParams = inheritParams;
-function chain(name, params = {}, overrideParams) {
-    const rParams = overrideParams
-        ? inheritParams(params, overrideParams)
+exports.merge = merge;
+/**
+ * Calls `merge` then appends `name` to the chain
+ *
+ * @param name
+ * @param higherPriorityParams
+ * @param params
+ * @returns the chained Params object
+ */
+function chain(name, higherPriorityParams, params = {}) {
+    console.assert(!!name && typeof name === 'string', 'name must be a non empty string');
+    const rParams = higherPriorityParams
+        ? merge(params, higherPriorityParams)
         : params;
     rParams.chain = rParams.chain === undefined
         ? [name]

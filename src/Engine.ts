@@ -1,6 +1,6 @@
 import Component from './Component.js';
 
-export class Manager {
+export class Engine {
   
   rootElement: HTMLElement;
   rootComponent: Component;
@@ -23,4 +23,4 @@ export class Manager {
 
 }
 
-export default Manager;
+export default Engine;

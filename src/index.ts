@@ -9,7 +9,7 @@ import DynamicHtml from './DynamicHtml.js';
 import EventHandler from './EventHandler.js';
 import Variable from './Variable.js';
 import AsyncVariable from './AsyncVariable.js';
-import Manager from './Manager.js';
+import Engine from './Engine.js';
 
 export const VERSION = "1.0.4";
 
@@ -25,5 +25,5 @@ export default {
   EventHandler,
   Variable,
   AsyncVariable,
-  Manager
+  Engine
 };
