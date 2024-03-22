@@ -1,12 +1,17 @@
 import { DynamicAttributeValueFn } from "../DynamicAttribute.js";
 import InputTypes from "./InputType.js";
-import StyleAttributeType from "./StyleAttributeType.js";
+import StyleAttributesType from "./StyleAttributesType.js";
 import EventAttributeTypes from "./EventAttributesType.js";
+import SVGAttributesType from "./SVGAttributesType.js";
 
 // AttributeValueType
 type AVT = string|DynamicAttributeValueFn|undefined;
 
-export interface AttributesType extends EventAttributeTypes {
+export type AttributeValueType = AVT;
+
+export interface AttributesType extends 
+  EventAttributeTypes, SVGAttributesType 
+{
   accept?: AVT,
   acceptCharset?: AVT,
   accesskey?: AVT,
@@ -120,13 +125,13 @@ export interface AttributesType extends EventAttributeTypes {
   srcset?: AVT,
   start?: AVT,
   step?: AVT,
-  style?: &StyleAttributeType,
+  style?: &StyleAttributesType,
   summary?: AVT,
   tabIndex?: AVT,
   target?: AVT,
   title?: AVT,
   translate?: AVT,
-  type?: InputTypes,
+  type?: InputTypes|string,
   usemap?: AVT,
   value?: AVT,
   width?: AVT,

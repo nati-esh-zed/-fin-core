@@ -22,7 +22,7 @@ export interface RenderChildFn { (child: ComponentStoredChildType): void }
 export interface Params {
   chain?: Array<string>,
   tag?: string,
-  attributes?: ComponentAttributesType,
+  attributes?: &ComponentAttributesType,
   children?: ComponentChildrenType,
   update?: UpdateFn;
   render?: RenderFn;
@@ -31,7 +31,7 @@ export interface Params {
 }
 
 export interface ComponentAlterParams {
-  attributes?: ComponentAttributesType,
+  attributes?: &ComponentAttributesType,
   children?: ComponentChildrenType,
   update?: UpdateFn;
   render?: RenderFn;
@@ -66,7 +66,7 @@ class Component {
   get eventHandlers() { return this.#eventHandlers; }
   get node() { return this.#node; }
 
-  constructor(params: Params = {}) {
+  constructor(params: &Params = {}) {
     const {chain, tag, attributes, children, 
       update, render, updateChild, renderChild} = params;
     const tag_ = tag ?? 'div';
@@ -100,7 +100,7 @@ class Component {
     return this;
   }
 
-  alter(params: ComponentAlterParams) {
+  alter(params: &ComponentAlterParams) {
     const {attributes, children, update, render} = params;
     if(attributes) {
       this.setAttributes(attributes);

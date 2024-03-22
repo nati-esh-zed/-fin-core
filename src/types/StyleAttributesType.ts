@@ -1,6 +1,8 @@
 
-// StyleAttributeValueType
+// StyleAttributesValueType
 type SAVT = string;
+
+export type StyleAttributesValueType = SAVT;
 
 export interface StyleAttributesType {
   WebkitLineClamp?: SAVT,

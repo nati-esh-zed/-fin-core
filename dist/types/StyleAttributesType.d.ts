@@ -1,4 +1,5 @@
 type SAVT = string;
+export type StyleAttributesValueType = SAVT;
 export interface StyleAttributesType {
     WebkitLineClamp?: SAVT;
     accentColor?: SAVT;
@@ -437,4 +438,4 @@ export interface StyleAttributesType {
     zIndex?: SAVT;
 }
 export default StyleAttributesType;
-//# sourceMappingURL=StyleAttributeType.d.ts.map
+//# sourceMappingURL=StyleAttributesType.d.ts.map
