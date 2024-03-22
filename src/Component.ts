@@ -22,6 +22,7 @@ export interface RenderChildFn { (child: ComponentStoredChildType): void }
 export interface Params {
   chain?: Array<string>,
   tag?: string,
+  namespace?: string|undefined;
   attributes?: &ComponentAttributesType,
   children?: ComponentChildrenType,
   update?: UpdateFn;
@@ -45,6 +46,7 @@ class Component {
 
   #id: string;
   #name: string;
+  #namespace: string|undefined;
   #chain: Array<string>;
   #tag: string;
   #attributes?: Array<ComponentAttributeType>;
@@ -55,10 +57,11 @@ class Component {
   updateChildCb?: UpdateChildFn;
   renderChildCb?: RenderChildFn;
 
-  #node: HTMLElement;
+  #node: HTMLElement|SVGElement;
   
   get id() { return this.#id; }
   get name() { return this.#name; }
+  get namespace() { return this.#namespace; }
   get chain() { return this.#chain; }
   get tag() { return this.#tag; }
   get attributes() { return this.#attributes; }
@@ -67,7 +70,7 @@ class Component {
   get node() { return this.#node; }
 
   constructor(params: &Params = {}) {
-    const {chain, tag, attributes, children, 
+    const {chain, tag, namespace, attributes, children, 
       update, render, updateChild, renderChild} = params;
     const tag_ = tag ?? 'div';
     this.#id = 'fid'+(++Component.ID_TOP);
@@ -75,12 +78,19 @@ class Component {
     this.#chain = chain 
       ? chain.concat(Component._sGetChain(this))
       : Component._sGetChain(this);
-    this.#tag = tag_;
+    this.#tag = tag_.toLowerCase();
     this.updateCb = update;
     this.renderCb = render;
     this.updateChildCb = updateChild;
     this.renderChildCb = renderChild;
-    this.#node = document.createElement(this.#tag);
+    const chosenNamespace = namespace
+      ? (namespace.toLowerCase() === 'svg' 
+        ? 'http://www.w3.org/2000/svg' 
+        : namespace)
+      : undefined;
+    this.#node = chosenNamespace
+      ? document.createElementNS(chosenNamespace, this.#tag)! as HTMLElement|SVGElement
+      : document.createElement(this.#tag);
     // set attributes from params
     if(attributes) {
       this.setAttributes(attributes);

@@ -26,9 +26,9 @@
   },
   "keywords": [
     "component",
-    "renderer",
     "dynamic",
-    "engine"
+    "engine",
+    "front-end"
   ],
   "author": "Natnael Eshetu",
   "license": "MIT",
