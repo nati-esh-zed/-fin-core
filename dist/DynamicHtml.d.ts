@@ -11,7 +11,7 @@ declare class DynamicHtml extends Component {
     get html(): string;
     set html(html: string);
     update(): boolean;
-    render(): HTMLElement;
+    render(): HTMLElement | SVGElement;
 }
 export default DynamicHtml;
 //# sourceMappingURL=DynamicHtml.d.ts.map

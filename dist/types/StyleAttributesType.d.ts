@@ -1,6 +1,7 @@
+import { SVGPresentationAttributesType } from "./SVGAttributesType.js";
 type SAVT = string;
 export type StyleAttributesValueType = SAVT;
-export interface StyleAttributesType {
+export interface StyleAttributesType extends SVGPresentationAttributesType {
     WebkitLineClamp?: SAVT;
     accentColor?: SAVT;
     alignContent?: SAVT;

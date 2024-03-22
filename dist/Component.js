@@ -13,7 +13,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _Component_id, _Component_name, _Component_chain, _Component_tag, _Component_attributes, _Component_children, _Component_eventHandlers, _Component_node;
+var _Component_id, _Component_name, _Component_namespace, _Component_chain, _Component_tag, _Component_attributes, _Component_children, _Component_eventHandlers, _Component_node;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chain = exports.merge = void 0;
 const Attribute_js_1 = __importDefault(require("./Attribute.js"));
@@ -23,6 +23,7 @@ const DynamicAttribute_js_1 = __importDefault(require("./DynamicAttribute.js"));
 class Component {
     get id() { return __classPrivateFieldGet(this, _Component_id, "f"); }
     get name() { return __classPrivateFieldGet(this, _Component_name, "f"); }
+    get namespace() { return __classPrivateFieldGet(this, _Component_namespace, "f"); }
     get chain() { return __classPrivateFieldGet(this, _Component_chain, "f"); }
     get tag() { return __classPrivateFieldGet(this, _Component_tag, "f"); }
     get attributes() { return __classPrivateFieldGet(this, _Component_attributes, "f"); }
@@ -32,25 +33,33 @@ class Component {
     constructor(params = {}) {
         _Component_id.set(this, void 0);
         _Component_name.set(this, void 0);
+        _Component_namespace.set(this, void 0);
         _Component_chain.set(this, void 0);
         _Component_tag.set(this, void 0);
         _Component_attributes.set(this, void 0);
         _Component_children.set(this, void 0);
         _Component_eventHandlers.set(this, void 0);
         _Component_node.set(this, void 0);
-        const { chain, tag, attributes, children, update, render, updateChild, renderChild } = params;
+        const { chain, tag, namespace, attributes, children, update, render, updateChild, renderChild } = params;
         const tag_ = tag !== null && tag !== void 0 ? tag : 'div';
         __classPrivateFieldSet(this, _Component_id, 'fid' + (++Component.ID_TOP), "f");
         __classPrivateFieldSet(this, _Component_name, this.constructor.name, "f");
         __classPrivateFieldSet(this, _Component_chain, chain
             ? chain.concat(Component._sGetChain(this))
             : Component._sGetChain(this), "f");
-        __classPrivateFieldSet(this, _Component_tag, tag_, "f");
+        __classPrivateFieldSet(this, _Component_tag, tag_.toLowerCase(), "f");
         this.updateCb = update;
         this.renderCb = render;
         this.updateChildCb = updateChild;
         this.renderChildCb = renderChild;
-        __classPrivateFieldSet(this, _Component_node, document.createElement(__classPrivateFieldGet(this, _Component_tag, "f")), "f");
+        const chosenNamespace = namespace
+            ? (namespace.toLowerCase() === 'svg'
+                ? 'http://www.w3.org/2000/svg'
+                : namespace)
+            : undefined;
+        __classPrivateFieldSet(this, _Component_node, chosenNamespace
+            ? document.createElementNS(chosenNamespace, __classPrivateFieldGet(this, _Component_tag, "f"))
+            : document.createElement(__classPrivateFieldGet(this, _Component_tag, "f")), "f");
         // set attributes from params
         if (attributes) {
             this.setAttributes(attributes);
@@ -251,7 +260,7 @@ class Component {
         return prototypes;
     }
 }
-_Component_id = new WeakMap(), _Component_name = new WeakMap(), _Component_chain = new WeakMap(), _Component_tag = new WeakMap(), _Component_attributes = new WeakMap(), _Component_children = new WeakMap(), _Component_eventHandlers = new WeakMap(), _Component_node = new WeakMap();
+_Component_id = new WeakMap(), _Component_name = new WeakMap(), _Component_namespace = new WeakMap(), _Component_chain = new WeakMap(), _Component_tag = new WeakMap(), _Component_attributes = new WeakMap(), _Component_children = new WeakMap(), _Component_eventHandlers = new WeakMap(), _Component_node = new WeakMap();
 Component.SET_NODE_FID = false;
 Component.ID_TOP = 0;
 /**

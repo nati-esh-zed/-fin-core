@@ -7,7 +7,7 @@ declare class Html extends Component {
     constructor(params: Params);
     get html(): string;
     set html(html: string);
-    render(): HTMLElement;
+    render(): HTMLElement | SVGElement;
 }
 export default Html;
 //# sourceMappingURL=Html.d.ts.map

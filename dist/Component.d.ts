@@ -24,6 +24,7 @@ export interface RenderChildFn {
 export interface Params {
     chain?: Array<string>;
     tag?: string;
+    namespace?: string | undefined;
     attributes?: ComponentAttributesType;
     children?: ComponentChildrenType;
     update?: UpdateFn;
@@ -49,12 +50,13 @@ declare class Component {
     renderChildCb?: RenderChildFn;
     get id(): string;
     get name(): string;
+    get namespace(): string | undefined;
     get chain(): string[];
     get tag(): string;
     get attributes(): ComponentAttributeType[] | undefined;
     get children(): ComponentStoredChildType[] | undefined;
     get eventHandlers(): EventHandler[] | undefined;
-    get node(): HTMLElement;
+    get node(): HTMLElement | SVGElement;
     constructor(params?: Params);
     alter(params: ComponentAlterParams): this;
     cloneAttribute(attribute: ComponentAttributeType): any;
@@ -66,7 +68,7 @@ declare class Component {
     updateAttributes(): void;
     update(): boolean;
     updateChild(child: ComponentStoredChildType): void;
-    render(): HTMLElement;
+    render(): HTMLElement | SVGElement;
     addEventHandler(eventHandler: EventHandler): void;
     private _mProcessAttribute;
     private _mUpdateAttribute;
