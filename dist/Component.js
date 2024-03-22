@@ -294,7 +294,7 @@ exports.merge = merge;
 function chain(name, higherPriorityParams, params = {}) {
     console.assert(!!name && typeof name === 'string', 'name must be a non empty string');
     const rParams = higherPriorityParams
-        ? merge(params, higherPriorityParams)
+        ? merge(higherPriorityParams, params)
         : params;
     rParams.chain = rParams.chain === undefined
         ? [name]
