@@ -12,6 +12,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _TextComponent_content, _TextComponent_node;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TextComponent = void 0;
 class TextComponent {
     constructor(content) {
         _TextComponent_content.set(this, void 0);
@@ -37,5 +38,5 @@ class TextComponent {
         return __classPrivateFieldGet(this, _TextComponent_node, "f");
     }
 }
+exports.TextComponent = TextComponent;
 _TextComponent_content = new WeakMap(), _TextComponent_node = new WeakMap();
-exports.default = TextComponent;

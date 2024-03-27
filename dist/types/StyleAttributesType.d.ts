@@ -438,5 +438,5 @@ export interface StyleAttributesType extends SVGPresentationAttributesType {
     writingMode?: SAVT;
     zIndex?: SAVT;
 }
-export default StyleAttributesType;
+export {};
 //# sourceMappingURL=StyleAttributesType.d.ts.map

@@ -23,5 +23,3 @@ export enum InputType {
   url,
   week,
 }
-
-export default InputType;

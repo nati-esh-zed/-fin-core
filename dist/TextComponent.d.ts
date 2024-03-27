@@ -1,5 +1,5 @@
-import Component from './Component.js';
-declare class TextComponent {
+import { Component } from './Component.js';
+export declare class TextComponent {
     #private;
     constructor(content: string);
     get content(): string;
@@ -8,5 +8,4 @@ declare class TextComponent {
     update(component?: Component): Text;
     render(): Text;
 }
-export default TextComponent;
 //# sourceMappingURL=TextComponent.d.ts.map

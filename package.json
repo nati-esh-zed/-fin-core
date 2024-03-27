@@ -3,18 +3,7 @@
   "version": "1.2.4",
   "description": "Component based client-side renderer for dynamic websites and web-apps.",
   "type": "commonjs",
-  "module": "./dist/index.js",
-  "exports": {
-    ".": "./dist/index.js",
-    "./index": "./dist/index.js",
-    "./index.js": "./dist/index.js",
-    "./index.ts": "./src/index.ts",
-    "./dist/*": "./dist/*",
-    "./src/*": "./src/*",
-    "./*": "./dist/*.js",
-    "./types/*": "./dist/types/*.js",
-    "./package.json": "./package.json"
-  },
+  "module": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",

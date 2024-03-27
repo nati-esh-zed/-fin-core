@@ -1,7 +1,7 @@
 'use strict'
 
-import Attribute from "./Attribute.js";
-import Component from "./Component.js";
+import { Attribute } from "./Attribute.js";
+import { Component } from "./Component.js";
 
 export interface DynamicAttributeValueFn {
   (component: &Component, child: &DynamicAttribute): string|undefined
@@ -13,11 +13,11 @@ export interface DynamicAttributeParams
   value: DynamicAttributeValueFn;
 }
 
-class DynamicAttribute extends Attribute {
+export class DynamicAttribute extends Attribute {
 
   #valueCb: DynamicAttributeValueFn;
   
-  constructor(params: DynamicAttributeParams) {
+  constructor(params: &DynamicAttributeParams) {
     const { name, value } = params;
     super({
       name: name, value: undefined
@@ -31,5 +31,3 @@ class DynamicAttribute extends Attribute {
   }
 
 }
-
-export default DynamicAttribute;

@@ -1,8 +1,8 @@
 'use strict'
 
-import Component from './Component.js';
+import { Component } from './Component.js';
 
-class TextComponent {
+export class TextComponent {
 
   #content: string;
   #node: Text;
@@ -35,5 +35,3 @@ class TextComponent {
   }
 
 }
-
-export default TextComponent;

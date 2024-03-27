@@ -17,4 +17,3 @@ class Engine {
     }
 }
 exports.Engine = Engine;
-exports.default = Engine;

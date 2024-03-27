@@ -10,13 +10,11 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _Html_html;
 Object.defineProperty(exports, "__esModule", { value: true });
-const Component_js_1 = __importDefault(require("./Component.js"));
-class Html extends Component_js_1.default {
+exports.Html = void 0;
+const Component_js_1 = require("./Component.js");
+class Html extends Component_js_1.Component {
     constructor(params) {
         super(Object.assign({ tag: 'span' }, params));
         _Html_html.set(this, void 0);
@@ -34,5 +32,5 @@ class Html extends Component_js_1.default {
         return super.render();
     }
 }
+exports.Html = Html;
 _Html_html = new WeakMap();
-exports.default = Html;

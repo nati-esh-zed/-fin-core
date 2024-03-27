@@ -1,29 +1,17 @@
 
-import Attribute from './Attribute.js';
-import DynamicAttribute from './DynamicAttribute.js';
-import Component from './Component.js';
-import TextComponent from './TextComponent.js';
-import DynamicTextComponent from './DynamicTextComponent.js';
-import Html from './Html.js';
-import DynamicHtml from './DynamicHtml.js';
-import EventHandler from './EventHandler.js';
-import Variable from './Variable.js';
-import AsyncVariable from './AsyncVariable.js';
-import Engine from './Engine.js';
-
-export const VERSION = "1.0.4";
-
-export default {
-  VERSION,
-  Attribute,
-  DynamicAttribute,
-  Component,
-  TextComponent,
-  DynamicTextComponent,
-  Html,
-  DynamicHtml,
-  EventHandler,
-  Variable,
-  AsyncVariable,
-  Engine
-};
+export * from './types/AttributesType.js';
+export * from './types/EventAttributesType.js';
+export * from './types/InputType.js';
+export * from './types/StyleAttributesType.js';
+export * from './types/SVGAttributesType.js';
+export * from './Attribute.js';
+export * from './DynamicAttribute.js';
+export * from './Component.js';
+export * from './TextComponent.js';
+export * from './DynamicTextComponent.js';
+export * from './Html.js';
+export * from './DynamicHtml.js';
+export * from './EventHandler.js';
+export * from './Variable.js';
+export * from './AsyncVariable.js';
+export * from './Engine.js';

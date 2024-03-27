@@ -10,16 +10,14 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _Variable_value, _Variable_references;
 Object.defineProperty(exports, "__esModule", { value: true });
-const DynamicAttribute_js_1 = __importDefault(require("./DynamicAttribute.js"));
-const DynamicTextComponent_js_1 = __importDefault(require("./DynamicTextComponent.js"));
+exports.Variable = void 0;
+const DynamicAttribute_js_1 = require("./DynamicAttribute.js");
+const DynamicTextComponent_js_1 = require("./DynamicTextComponent.js");
 class Variable {
     constructor(initialValue) {
-        _Variable_value.set(this, undefined);
+        _Variable_value.set(this, void 0);
         _Variable_references.set(this, void 0);
         __classPrivateFieldSet(this, _Variable_value, initialValue, "f");
         __classPrivateFieldSet(this, _Variable_references, new Map(), "f");
@@ -81,10 +79,10 @@ class Variable {
         for (let [component, targets] of this.references) {
             for (let child of targets) {
                 if (child !== undefined) {
-                    if (child instanceof DynamicTextComponent_js_1.default) {
+                    if (child instanceof DynamicTextComponent_js_1.DynamicTextComponent) {
                         component.updateChild(child);
                     }
-                    else if (child instanceof DynamicAttribute_js_1.default) {
+                    else if (child instanceof DynamicAttribute_js_1.DynamicAttribute) {
                         component.updateAttribute(child);
                     }
                 }
@@ -95,5 +93,5 @@ class Variable {
         return __classPrivateFieldGet(this, _Variable_value, "f");
     }
 }
+exports.Variable = Variable;
 _Variable_value = new WeakMap(), _Variable_references = new WeakMap();
-exports.default = Variable;

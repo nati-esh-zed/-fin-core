@@ -10,16 +10,13 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _Component_id, _Component_name, _Component_namespace, _Component_chain, _Component_tag, _Component_attributes, _Component_children, _Component_eventHandlers, _Component_node;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.chain = exports.merge = void 0;
-const Attribute_js_1 = __importDefault(require("./Attribute.js"));
-const TextComponent_js_1 = __importDefault(require("./TextComponent.js"));
-const DynamicTextComponent_js_1 = __importDefault(require("./DynamicTextComponent.js"));
-const DynamicAttribute_js_1 = __importDefault(require("./DynamicAttribute.js"));
+exports.chain = exports.merge = exports.Component = void 0;
+const Attribute_js_1 = require("./Attribute.js");
+const TextComponent_js_1 = require("./TextComponent.js");
+const DynamicTextComponent_js_1 = require("./DynamicTextComponent.js");
+const DynamicAttribute_js_1 = require("./DynamicAttribute.js");
 class Component {
     get id() { return __classPrivateFieldGet(this, _Component_id, "f"); }
     get name() { return __classPrivateFieldGet(this, _Component_name, "f"); }
@@ -48,10 +45,14 @@ class Component {
             ? chain.concat(Component._sGetChain(this))
             : Component._sGetChain(this), "f");
         __classPrivateFieldSet(this, _Component_tag, tag_.toLowerCase(), "f");
-        this.updateCb = update;
-        this.renderCb = render;
-        this.updateChildCb = updateChild;
-        this.renderChildCb = renderChild;
+        if (update)
+            this.updateCb = update.bind(this);
+        if (render)
+            this.renderCb = render.bind(this);
+        if (updateChild)
+            this.updateChildCb = updateChild.bind(this);
+        if (renderChild)
+            this.renderChildCb = renderChild.bind(this);
         const chosenNamespace = namespace
             ? (namespace.toLowerCase() === 'svg'
                 ? 'http://www.w3.org/2000/svg'
@@ -87,25 +88,23 @@ class Component {
         if (children) {
             this.setChildren(children);
         }
-        if (update) {
-            this.updateCb = update;
-        }
-        if (render) {
-            this.renderCb = render;
-        }
+        if (update)
+            this.updateCb = update.bind(this);
+        if (render)
+            this.renderCb = render.bind(this);
         return this;
     }
     cloneAttribute(attribute) {
         const { name, value } = attribute;
         let clonedAttribute;
-        if (attribute instanceof DynamicAttribute_js_1.default) {
-            clonedAttribute = new DynamicAttribute_js_1.default({
+        if (attribute instanceof DynamicAttribute_js_1.DynamicAttribute) {
+            clonedAttribute = new DynamicAttribute_js_1.DynamicAttribute({
                 name: name,
                 value: value
             });
         }
         else {
-            clonedAttribute = new Attribute_js_1.default({
+            clonedAttribute = new Attribute_js_1.Attribute({
                 name: name,
                 value: value
             });
@@ -129,7 +128,7 @@ class Component {
             __classPrivateFieldSet(this, _Component_attributes, new Array, "f");
         for (let name of Object.keys(attributes)) {
             if (!this.hasAttribute(name)) {
-                const attribute = new Attribute_js_1.default({ name: name, value: attributes[name] });
+                const attribute = new Attribute_js_1.Attribute({ name: name, value: attributes[name] });
                 const resAttribute = this._mProcessAttribute(attribute);
                 if (resAttribute !== undefined)
                     __classPrivateFieldGet(this, _Component_attributes, "f").push(resAttribute);
@@ -141,16 +140,16 @@ class Component {
             __classPrivateFieldSet(this, _Component_children, new Array, "f");
             for (let child of children) {
                 if (child instanceof Component ||
-                    child instanceof TextComponent_js_1.default) {
+                    child instanceof TextComponent_js_1.TextComponent) {
                     __classPrivateFieldGet(this, _Component_children, "f").push(child);
                 }
                 else if (typeof child === 'string' ||
                     typeof child === 'undefined') {
-                    const textComponent = new TextComponent_js_1.default(child || '');
+                    const textComponent = new TextComponent_js_1.TextComponent(child || '');
                     __classPrivateFieldGet(this, _Component_children, "f").push(textComponent);
                 }
                 else if (typeof child === 'function') {
-                    const dynamicTextComponent = new DynamicTextComponent_js_1.default(child);
+                    const dynamicTextComponent = new DynamicTextComponent_js_1.DynamicTextComponent(child);
                     __classPrivateFieldGet(this, _Component_children, "f").push(dynamicTextComponent);
                 }
             }
@@ -169,7 +168,7 @@ class Component {
         }
     }
     update() {
-        if (this.updateCb && !this.updateCb())
+        if (this.updateCb && !this.updateCb(this))
             return false;
         this.updateAttributes();
         if (__classPrivateFieldGet(this, _Component_children, "f")) {
@@ -193,7 +192,7 @@ class Component {
                     child.render();
                     __classPrivateFieldGet(this, _Component_node, "f").appendChild(child.node);
                 }
-                else if (child instanceof TextComponent_js_1.default) {
+                else if (child instanceof TextComponent_js_1.TextComponent) {
                     __classPrivateFieldGet(this, _Component_node, "f").appendChild(child.node);
                 }
             }
@@ -228,7 +227,7 @@ class Component {
             return undefined;
         }
         else if (typeof attribute.value === 'function') {
-            const dynamicAttribute = new DynamicAttribute_js_1.default({
+            const dynamicAttribute = new DynamicAttribute_js_1.DynamicAttribute({
                 name: attribute.name,
                 value: attribute.value
             });
@@ -237,7 +236,7 @@ class Component {
         return attribute;
     }
     _mUpdateAttribute(attribute) {
-        if (attribute instanceof DynamicAttribute_js_1.default)
+        if (attribute instanceof DynamicAttribute_js_1.DynamicAttribute)
             attribute.update(this);
         __classPrivateFieldGet(this, _Component_node, "f").attributes.setNamedItem(attribute.node);
     }
@@ -245,7 +244,7 @@ class Component {
         if (child instanceof Component) {
             child.update();
         }
-        else if (child instanceof DynamicTextComponent_js_1.default) {
+        else if (child instanceof DynamicTextComponent_js_1.DynamicTextComponent) {
             child.update(this);
         }
         return child;
@@ -260,6 +259,7 @@ class Component {
         return prototypes;
     }
 }
+exports.Component = Component;
 _Component_id = new WeakMap(), _Component_name = new WeakMap(), _Component_namespace = new WeakMap(), _Component_chain = new WeakMap(), _Component_tag = new WeakMap(), _Component_attributes = new WeakMap(), _Component_children = new WeakMap(), _Component_eventHandlers = new WeakMap(), _Component_node = new WeakMap();
 Component.SET_NODE_FID = false;
 Component.ID_TOP = 0;
@@ -302,4 +302,3 @@ function chain(name, higherPriorityParams, params = {}) {
     return rParams;
 }
 exports.chain = chain;
-exports.default = Component;

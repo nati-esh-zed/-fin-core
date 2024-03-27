@@ -1,18 +1,17 @@
 'use strict'
 
-import Component, { Params as ComponentParams } from './Component.js';
+import { Component, Params } from './Component.js';
 
-export interface Params extends
-  ComponentParams
+export interface HtmlParams extends Params
 {
   html?: string 
 }
 
-class Html extends Component {
+export class Html extends Component {
   
   #html: string;
 
-  constructor(params: Params) {
+  constructor(params: &HtmlParams) {
     super({
       tag: 'span',
       ...params
@@ -35,5 +34,3 @@ class Html extends Component {
   }
 
 }
-
-export default Html;

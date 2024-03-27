@@ -1,17 +1,17 @@
 'use strict'
 
-export interface Params {
+export interface AttributeParams {
   name: string;
   value?: any;
 }
 
-class Attribute {
+export class Attribute {
   
   #name: string;
   #value?: any;
   #node: Attr;
 
-  constructor(params: Params) {
+  constructor(params: AttributeParams) {
     const {name, value} = params;
     this.#name  = name;
     this.#value = value;
@@ -37,5 +37,3 @@ class Attribute {
   }
   
 }
-
-export default Attribute;

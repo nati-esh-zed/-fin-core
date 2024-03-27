@@ -22,5 +22,4 @@ export declare enum InputType {
     url = 20,
     week = 21
 }
-export default InputType;
 //# sourceMappingURL=InputType.d.ts.map

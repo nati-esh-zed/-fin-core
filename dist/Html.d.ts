@@ -1,13 +1,12 @@
-import Component, { Params as ComponentParams } from './Component.js';
-export interface Params extends ComponentParams {
+import { Component, Params } from './Component.js';
+export interface HtmlParams extends Params {
     html?: string;
 }
-declare class Html extends Component {
+export declare class Html extends Component {
     #private;
-    constructor(params: Params);
+    constructor(params: HtmlParams);
     get html(): string;
     set html(html: string);
     render(): HTMLElement | SVGElement;
 }
-export default Html;
 //# sourceMappingURL=Html.d.ts.map

@@ -443,5 +443,3 @@ export interface StyleAttributesType extends SVGPresentationAttributesType {
   zIndex?: SAVT,
 
 }
-
-export default StyleAttributesType;

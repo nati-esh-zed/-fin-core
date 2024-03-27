@@ -73,5 +73,5 @@ export interface EventAttributesType {
     onWaiting?: EHVT;
     onToggle?: EHVT;
 }
-export default EventAttributesType;
+export {};
 //# sourceMappingURL=EventAttributesType.d.ts.map

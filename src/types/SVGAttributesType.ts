@@ -1,5 +1,5 @@
 import { AttributeValueType } from './AttributesType.js';
-import StyleAttributesType from './StyleAttributesType.js';
+import { StyleAttributesType } from './StyleAttributesType.js';
 
 // SVGAttributesType
 type SVGAVT = AttributeValueType;
@@ -317,5 +317,3 @@ export interface SVGAttributesType {
   z?: SVGAVT,
   zoomAndPan?: SVGAVT
 }
-
-export default SVGAttributesType;

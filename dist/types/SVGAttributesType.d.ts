@@ -1,5 +1,5 @@
 import { AttributeValueType } from './AttributesType.js';
-import StyleAttributesType from './StyleAttributesType.js';
+import { StyleAttributesType } from './StyleAttributesType.js';
 type SVGAVT = AttributeValueType;
 export type SVGAttributesValueType = SVGAVT;
 export interface SVGPresentationAttributesType {
@@ -312,5 +312,5 @@ export interface SVGAttributesType {
     z?: SVGAVT;
     zoomAndPan?: SVGAVT;
 }
-export default SVGAttributesType;
+export {};
 //# sourceMappingURL=SVGAttributesType.d.ts.map

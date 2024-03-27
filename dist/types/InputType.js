@@ -26,4 +26,3 @@ var InputType;
     InputType[InputType["url"] = 20] = "url";
     InputType[InputType["week"] = 21] = "week";
 })(InputType || (exports.InputType = InputType = {}));
-exports.default = InputType;

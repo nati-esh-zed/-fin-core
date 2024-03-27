@@ -1,32 +1,32 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VERSION = void 0;
-const Attribute_js_1 = __importDefault(require("./Attribute.js"));
-const DynamicAttribute_js_1 = __importDefault(require("./DynamicAttribute.js"));
-const Component_js_1 = __importDefault(require("./Component.js"));
-const TextComponent_js_1 = __importDefault(require("./TextComponent.js"));
-const DynamicTextComponent_js_1 = __importDefault(require("./DynamicTextComponent.js"));
-const Html_js_1 = __importDefault(require("./Html.js"));
-const DynamicHtml_js_1 = __importDefault(require("./DynamicHtml.js"));
-const EventHandler_js_1 = __importDefault(require("./EventHandler.js"));
-const Variable_js_1 = __importDefault(require("./Variable.js"));
-const AsyncVariable_js_1 = __importDefault(require("./AsyncVariable.js"));
-const Engine_js_1 = __importDefault(require("./Engine.js"));
-exports.VERSION = "1.0.4";
-exports.default = {
-    VERSION: exports.VERSION,
-    Attribute: Attribute_js_1.default,
-    DynamicAttribute: DynamicAttribute_js_1.default,
-    Component: Component_js_1.default,
-    TextComponent: TextComponent_js_1.default,
-    DynamicTextComponent: DynamicTextComponent_js_1.default,
-    Html: Html_js_1.default,
-    DynamicHtml: DynamicHtml_js_1.default,
-    EventHandler: EventHandler_js_1.default,
-    Variable: Variable_js_1.default,
-    AsyncVariable: AsyncVariable_js_1.default,
-    Engine: Engine_js_1.default
-};
+__exportStar(require("./types/AttributesType.js"), exports);
+__exportStar(require("./types/EventAttributesType.js"), exports);
+__exportStar(require("./types/InputType.js"), exports);
+__exportStar(require("./types/StyleAttributesType.js"), exports);
+__exportStar(require("./types/SVGAttributesType.js"), exports);
+__exportStar(require("./Attribute.js"), exports);
+__exportStar(require("./DynamicAttribute.js"), exports);
+__exportStar(require("./Component.js"), exports);
+__exportStar(require("./TextComponent.js"), exports);
+__exportStar(require("./DynamicTextComponent.js"), exports);
+__exportStar(require("./Html.js"), exports);
+__exportStar(require("./DynamicHtml.js"), exports);
+__exportStar(require("./EventHandler.js"), exports);
+__exportStar(require("./Variable.js"), exports);
+__exportStar(require("./AsyncVariable.js"), exports);
+__exportStar(require("./Engine.js"), exports);

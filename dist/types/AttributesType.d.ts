@@ -1,11 +1,11 @@
 import { DynamicAttributeValueFn } from "../DynamicAttribute.js";
-import InputTypes from "./InputType.js";
-import StyleAttributesType from "./StyleAttributesType.js";
-import EventAttributeTypes from "./EventAttributesType.js";
-import SVGAttributesType from "./SVGAttributesType.js";
+import { InputType } from "./InputType.js";
+import { StyleAttributesType } from "./StyleAttributesType.js";
+import { EventAttributesType } from "./EventAttributesType.js";
+import { SVGAttributesType } from "./SVGAttributesType.js";
 type AVT = string | DynamicAttributeValueFn | undefined;
 export type AttributeValueType = AVT;
-export interface AttributesType extends EventAttributeTypes, SVGAttributesType {
+export interface AttributesType extends EventAttributesType, SVGAttributesType {
     accept?: AVT;
     acceptCharset?: AVT;
     accesskey?: AVT;
@@ -125,11 +125,11 @@ export interface AttributesType extends EventAttributeTypes, SVGAttributesType {
     target?: AVT;
     title?: AVT;
     translate?: AVT;
-    type?: InputTypes | string;
+    type?: InputType | string;
     usemap?: AVT;
     value?: AVT;
     width?: AVT;
     wrap?: AVT;
 }
-export default AttributesType;
+export {};
 //# sourceMappingURL=AttributesType.d.ts.map

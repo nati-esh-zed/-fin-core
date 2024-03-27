@@ -1,23 +1,23 @@
 'use strict'
 
-import Component, { Params as ComponentParams } from './Component.js';
+import { Component, Params } from './Component.js';
 
 export interface HtmlFn {
   (component: &Component): string|Promise<string>|undefined
 }
 
-export interface Params extends
-  ComponentParams
+export interface DynamicHtmlParams extends
+  Params
 {
   html: HtmlFn 
 }
 
-class DynamicHtml extends Component {
+export class DynamicHtml extends Component {
   
   #htmlCb: HtmlFn;
   #html: string = '';
 
-  constructor(params: Params) {
+  constructor(params: &DynamicHtmlParams) {
     super({
       tag: 'span',
       ...params
@@ -57,5 +57,3 @@ class DynamicHtml extends Component {
   }
 
 }
-
-export default DynamicHtml;

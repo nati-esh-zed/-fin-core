@@ -12,6 +12,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _Attribute_name, _Attribute_value, _Attribute_node;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Attribute = void 0;
 class Attribute {
     constructor(params) {
         _Attribute_name.set(this, void 0);
@@ -37,5 +38,5 @@ class Attribute {
         return __classPrivateFieldGet(this, _Attribute_node, "f");
     }
 }
+exports.Attribute = Attribute;
 _Attribute_name = new WeakMap(), _Attribute_value = new WeakMap(), _Attribute_node = new WeakMap();
-exports.default = Attribute;

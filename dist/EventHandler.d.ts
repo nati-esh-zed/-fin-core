@@ -1,18 +1,17 @@
-import Component from './Component.js';
+import { Component } from './Component.js';
 export interface EventHandlerFn {
     (component: Component, event?: Event): any;
 }
-export interface Params {
+export interface EventHandlerParams {
     type: string;
     handler: EventHandlerFn;
 }
-declare class EventHandler {
+export declare class EventHandler {
     type: string;
     handler: EventHandlerFn;
     defHandler?: {
         (event: Event): any;
     };
-    constructor(params: Params);
+    constructor(params: EventHandlerParams);
 }
-export default EventHandler;
 //# sourceMappingURL=EventHandler.d.ts.map

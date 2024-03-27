@@ -10,13 +10,11 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _DynamicTextComponent_contentCb;
 Object.defineProperty(exports, "__esModule", { value: true });
-const TextComponent_js_1 = __importDefault(require("./TextComponent.js"));
-class DynamicTextComponent extends TextComponent_js_1.default {
+exports.DynamicTextComponent = void 0;
+const TextComponent_js_1 = require("./TextComponent.js");
+class DynamicTextComponent extends TextComponent_js_1.TextComponent {
     constructor(contentCb) {
         super('');
         _DynamicTextComponent_contentCb.set(this, void 0);
@@ -34,5 +32,5 @@ class DynamicTextComponent extends TextComponent_js_1.default {
         return super.update(component);
     }
 }
+exports.DynamicTextComponent = DynamicTextComponent;
 _DynamicTextComponent_contentCb = new WeakMap();
-exports.default = DynamicTextComponent;

@@ -76,5 +76,3 @@ export interface EventAttributesType {
   onWaiting?: EHVT, 
   onToggle?: EHVT
 }
-
-export default EventAttributesType;

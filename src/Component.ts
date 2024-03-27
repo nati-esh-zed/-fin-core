@@ -1,23 +1,23 @@
 'use strict'
 
-import Attribute from './Attribute.js';
-import EventHandler from './EventHandler.js';
-import TextComponent from './TextComponent.js';
-import DynamicTextComponent, { ContentFn } from './DynamicTextComponent.js';
-import DynamicAttribute from './DynamicAttribute.js';
-import AttributeType from './types/AttributesType.js';
+import { Attribute } from './Attribute.js';
+import { EventHandler } from './EventHandler.js';
+import { TextComponent } from './TextComponent.js';
+import { DynamicTextComponent, ContentFn } from './DynamicTextComponent.js';
+import { DynamicAttribute } from './DynamicAttribute.js';
+import { AttributesType } from './types/AttributesType.js';
 
 export type ComponentAttributeType   = &Attribute|&DynamicAttribute;
-export type ComponentAttributesType  = &AttributeType;
+export type ComponentAttributesType  = &AttributesType;
 export type ComponentStoredChildType = &Component|&TextComponent|&DynamicTextComponent;
 export type ComponentChildType       = 
   &Component|&TextComponent|&DynamicTextComponent|&ContentFn|string|undefined;
 export type ComponentChildrenType    = Array<ComponentChildType>;
 
-export interface UpdateFn { (): boolean }
-export interface RenderFn { (): boolean }
-export interface UpdateChildFn { (child: ComponentStoredChildType): boolean }
-export interface RenderChildFn { (child: ComponentStoredChildType): void }
+export interface UpdateFn { (component?: &Component): boolean }
+export interface RenderFn { (component?: &Component): boolean }
+export interface UpdateChildFn { (component?: &Component, child?: &ComponentStoredChildType): boolean }
+export interface RenderChildFn { (component?: &Component, child?: &ComponentStoredChildType): void }
 
 export interface Params {
   chain?: Array<string>,
@@ -40,7 +40,7 @@ export interface ComponentAlterParams {
   renderChild?: RenderChildFn;
 }
 
-class Component {
+export class Component {
   static SET_NODE_FID = false;
   static ID_TOP: number = 0;
 
@@ -79,10 +79,14 @@ class Component {
       ? chain.concat(Component._sGetChain(this))
       : Component._sGetChain(this);
     this.#tag = tag_.toLowerCase();
-    this.updateCb = update;
-    this.renderCb = render;
-    this.updateChildCb = updateChild;
-    this.renderChildCb = renderChild;
+    if(update)
+      this.updateCb = update.bind(this);
+    if(render)
+      this.renderCb = render.bind(this);
+    if(updateChild)
+      this.updateChildCb = updateChild.bind(this);
+    if(renderChild)
+      this.renderChildCb = renderChild.bind(this);
     const chosenNamespace = namespace
       ? (namespace.toLowerCase() === 'svg' 
         ? 'http://www.w3.org/2000/svg' 
@@ -119,12 +123,10 @@ class Component {
     if(children) {
       this.setChildren(children);
     }
-    if(update) {
-      this.updateCb = update;
-    }
-    if(render) {
-      this.renderCb = render;
-    }
+    if(update)
+      this.updateCb = update.bind(this);
+    if(render)
+      this.renderCb = render.bind(this);
     return this;
   }
 
@@ -209,7 +211,7 @@ class Component {
   }
   
   update() {
-    if(this.updateCb && !this.updateCb())
+    if(this.updateCb && !this.updateCb(this))
       return false;
     this.updateAttributes();
     if(this.#children) {
@@ -370,5 +372,3 @@ export function chain(name: string,
   return rParams;
 }
 
-
-export default Component;

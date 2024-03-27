@@ -1,14 +1,13 @@
-export interface Params {
+export interface AttributeParams {
     name: string;
     value?: any;
 }
-declare class Attribute {
+export declare class Attribute {
     #private;
-    constructor(params: Params);
+    constructor(params: AttributeParams);
     get name(): string;
     get value(): any;
     set value(newValue: any);
     get node(): Attr;
 }
-export default Attribute;
 //# sourceMappingURL=Attribute.d.ts.map

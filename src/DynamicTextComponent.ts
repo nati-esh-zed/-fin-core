@@ -1,13 +1,13 @@
 'use strict'
 
-import Component from './Component.js';
-import TextComponent from './TextComponent.js';
+import { Component } from './Component.js';
+import { TextComponent } from './TextComponent.js';
 
 export interface ContentFn {
   (component: &Component, child: &DynamicTextComponent): string|Promise<string>|undefined
 }
 
-class DynamicTextComponent extends TextComponent {
+export class DynamicTextComponent extends TextComponent {
   
   #contentCb: ContentFn;
   
@@ -28,5 +28,3 @@ class DynamicTextComponent extends TextComponent {
   }
 
 }
-
-export default DynamicTextComponent;

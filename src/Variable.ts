@@ -1,19 +1,19 @@
 'use strict'
 
-import Component from './Component.js';
-import DynamicAttribute from './DynamicAttribute.js';
-import DynamicTextComponent from './DynamicTextComponent.js';
+import { Component } from './Component.js';
+import { DynamicAttribute } from './DynamicAttribute.js';
+import { DynamicTextComponent } from './DynamicTextComponent.js';
 
 export type TargetChildType = &DynamicTextComponent|&DynamicAttribute|undefined;
 
 
-class Variable<Type> {
+export class Variable<Type> {
   
-  #value?: Type = undefined;
+  #value: Type;
   #references: Map<Component,Set<TargetChildType>>;
   then?: (value?: Type) => any
 
-  constructor(initialValue?: Type) {
+  constructor(initialValue: Type) {
     this.#value = initialValue;
     this.#references = new Map();
     this.tRef   = this.tRef.bind(this);
@@ -23,7 +23,7 @@ class Variable<Type> {
     this.update = this.update.bind(this);
   }
 
-  set value(newValue: Type|undefined) {
+  set value(newValue: Type) {
     this.#value = newValue;
     this.update();
   }
@@ -97,5 +97,3 @@ class Variable<Type> {
   }
 
 }
-
-export default Variable;

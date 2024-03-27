@@ -1,25 +1,25 @@
-import Attribute from './Attribute.js';
-import EventHandler from './EventHandler.js';
-import TextComponent from './TextComponent.js';
-import DynamicTextComponent, { ContentFn } from './DynamicTextComponent.js';
-import DynamicAttribute from './DynamicAttribute.js';
-import AttributeType from './types/AttributesType.js';
+import { Attribute } from './Attribute.js';
+import { EventHandler } from './EventHandler.js';
+import { TextComponent } from './TextComponent.js';
+import { DynamicTextComponent, ContentFn } from './DynamicTextComponent.js';
+import { DynamicAttribute } from './DynamicAttribute.js';
+import { AttributesType } from './types/AttributesType.js';
 export type ComponentAttributeType = Attribute | DynamicAttribute;
-export type ComponentAttributesType = AttributeType;
+export type ComponentAttributesType = AttributesType;
 export type ComponentStoredChildType = Component | TextComponent | DynamicTextComponent;
 export type ComponentChildType = Component | TextComponent | DynamicTextComponent | ContentFn | string | undefined;
 export type ComponentChildrenType = Array<ComponentChildType>;
 export interface UpdateFn {
-    (): boolean;
+    (component?: Component): boolean;
 }
 export interface RenderFn {
-    (): boolean;
+    (component?: Component): boolean;
 }
 export interface UpdateChildFn {
-    (child: ComponentStoredChildType): boolean;
+    (component?: Component, child?: ComponentStoredChildType): boolean;
 }
 export interface RenderChildFn {
-    (child: ComponentStoredChildType): void;
+    (component?: Component, child?: ComponentStoredChildType): void;
 }
 export interface Params {
     chain?: Array<string>;
@@ -40,7 +40,7 @@ export interface ComponentAlterParams {
     updateChild?: UpdateChildFn;
     renderChild?: RenderChildFn;
 }
-declare class Component {
+export declare class Component {
     #private;
     static SET_NODE_FID: boolean;
     static ID_TOP: number;
@@ -93,5 +93,4 @@ export declare function merge(higherPriorityParams: Params, params: Params): Par
  * @returns the chained Params object
  */
 export declare function chain(name: string, higherPriorityParams?: Params, params?: Params): Params;
-export default Component;
 //# sourceMappingURL=Component.d.ts.map

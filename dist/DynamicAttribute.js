@@ -10,13 +10,11 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _DynamicAttribute_valueCb;
 Object.defineProperty(exports, "__esModule", { value: true });
-const Attribute_js_1 = __importDefault(require("./Attribute.js"));
-class DynamicAttribute extends Attribute_js_1.default {
+exports.DynamicAttribute = void 0;
+const Attribute_js_1 = require("./Attribute.js");
+class DynamicAttribute extends Attribute_js_1.Attribute {
     constructor(params) {
         const { name, value } = params;
         super({
@@ -30,5 +28,5 @@ class DynamicAttribute extends Attribute_js_1.default {
         return true;
     }
 }
+exports.DynamicAttribute = DynamicAttribute;
 _DynamicAttribute_valueCb = new WeakMap();
-exports.default = DynamicAttribute;

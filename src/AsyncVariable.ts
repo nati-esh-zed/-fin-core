@@ -1,13 +1,13 @@
 'use strict'
 
-import Component from './Component.js';
-import Variable, { TargetChildType } from './Variable.js';
+import { Component } from './Component.js';
+import { Variable, TargetChildType } from './Variable.js';
 
-class AsyncVariable<Type> extends Variable<Type> {
+export class AsyncVariable<Type> extends Variable<Type> {
   
   #promise: Promise<Type>;
 
-  constructor(promise: Promise<Type>, initialValue?: Type) {
+  constructor(promise: Promise<Type>, initialValue: Type) {
     super(initialValue);
     this.#promise = promise;
     this.refer    = this.refer.bind(this);
@@ -46,4 +46,3 @@ class AsyncVariable<Type> extends Variable<Type> {
 
 }
 
-export default AsyncVariable;
