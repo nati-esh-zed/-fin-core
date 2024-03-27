@@ -20,6 +20,7 @@ export interface UpdateChildFn { (component?: &Component, child?: &ComponentStor
 export interface RenderChildFn { (component?: &Component, child?: &ComponentStoredChildType): void }
 
 export interface Params {
+  name?: string,
   chain?: Array<string>,
   tag?: string,
   namespace?: string|undefined;
@@ -41,7 +42,7 @@ export interface ComponentAlterParams {
 }
 
 export class Component {
-  static SET_NODE_FID = false;
+  static SET_NODE_FID_ATTRIBUTE = true;
   static ID_TOP: number = 0;
 
   #id: string;
@@ -51,7 +52,10 @@ export class Component {
   #tag: string;
   #attributes?: Array<ComponentAttributeType>;
   #children?: Array<ComponentStoredChildType>;
-  #eventHandlers?: Array<EventHandler>
+  #eventHandlers?: Array<EventHandler>;
+  #cssStrings?: Array<string>;
+  #styleNodes?: Array<HTMLStyleElement>;
+  #params: &Params;  
   updateCb?: UpdateFn;
   renderCb?: RenderFn;
   updateChildCb?: UpdateChildFn;
@@ -68,16 +72,22 @@ export class Component {
   get children() { return this.#children; }
   get eventHandlers() { return this.#eventHandlers; }
   get node() { return this.#node; }
+  get cssStrings() { return this.#cssStrings; }
+  get styleNodes() { return this.#styleNodes; }
+  get params() { return this.#params; }
 
   constructor(params: &Params = {}) {
-    const {chain, tag, namespace, attributes, children, 
+    const {name, chain, tag, namespace, attributes, children, 
       update, render, updateChild, renderChild} = params;
-    const tag_ = tag ?? 'div';
-    this.#id = 'fid'+(++Component.ID_TOP);
-    this.#name = this.constructor.name;
+    this.#params = params;
+    const tag_  = tag ?? 'div';
+    this.#name  = name ?? this.constructor.name;
+    this.#id    = (this.#name ? this.#name : 'Component') + '-' + (++Component.ID_TOP);
     this.#chain = chain 
       ? chain.concat(Component._sGetChain(this))
       : Component._sGetChain(this);
+    if(name)
+      this.#chain.unshift(name);
     this.#tag = tag_.toLowerCase();
     if(update)
       this.updateCb = update.bind(this);
@@ -100,7 +110,7 @@ export class Component {
       this.setAttributes(attributes);
       this.updateAttributes();
     }
-    if(Component.SET_NODE_FID) {
+    if(Component.SET_NODE_FID_ATTRIBUTE) {
       this.#node.setAttribute('fid', this.#id);
     }
     // children
@@ -115,7 +125,8 @@ export class Component {
   }
 
   alter(params: &ComponentAlterParams) {
-    const {attributes, children, update, render} = params;
+    this.#params = merge(params, this.#params);
+    const {attributes, children, update, render} = this.#params;
     if(attributes) {
       this.setAttributes(attributes);
       this.updateAttributes();
@@ -257,6 +268,35 @@ export class Component {
     }
   }
 
+  styled(format: TemplateStringsArray, ...args: any) {
+    let css = format[0];
+    const length = args.length;
+    for(let i = 0; i < length; i++) {
+      const arg = args[i];
+      if(arg instanceof Function)
+        css += arg(this) + format[i+1];
+      else 
+        css += arg + format[i+1];
+    }
+    this._mAddStyle(css);
+    return this;
+  }
+
+  private _mAddStyle(css) {
+    if(!this.#cssStrings)
+      this.#cssStrings = new Array<string>;
+    if(!this.#styleNodes)
+      this.#styleNodes = new Array<HTMLStyleElement>;
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = css;
+    if(this.#name)
+      styleElement.setAttribute('for', this.#id);
+    styleElement.setAttribute('index', this.#styleNodes.length.toFixed());
+    this.#cssStrings.push(css);
+    this.#styleNodes.push(styleElement);
+    document.head.appendChild(styleElement);
+  }
+
   private _mProcessAttribute(attribute: Attribute) {
     if(attribute.name.indexOf('on') === 0) {
       if(typeof attribute.value === 'function') {
@@ -311,6 +351,7 @@ export class Component {
     return prototypes;
   }
   
+
 }
 
 /**

@@ -10,7 +10,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _Component_id, _Component_name, _Component_namespace, _Component_chain, _Component_tag, _Component_attributes, _Component_children, _Component_eventHandlers, _Component_node;
+var _Component_id, _Component_name, _Component_namespace, _Component_chain, _Component_tag, _Component_attributes, _Component_children, _Component_eventHandlers, _Component_cssStrings, _Component_styleNodes, _Component_params, _Component_node;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chain = exports.merge = exports.Component = void 0;
 const Attribute_js_1 = require("./Attribute.js");
@@ -27,6 +27,9 @@ class Component {
     get children() { return __classPrivateFieldGet(this, _Component_children, "f"); }
     get eventHandlers() { return __classPrivateFieldGet(this, _Component_eventHandlers, "f"); }
     get node() { return __classPrivateFieldGet(this, _Component_node, "f"); }
+    get cssStrings() { return __classPrivateFieldGet(this, _Component_cssStrings, "f"); }
+    get styleNodes() { return __classPrivateFieldGet(this, _Component_styleNodes, "f"); }
+    get params() { return __classPrivateFieldGet(this, _Component_params, "f"); }
     constructor(params = {}) {
         _Component_id.set(this, void 0);
         _Component_name.set(this, void 0);
@@ -36,14 +39,20 @@ class Component {
         _Component_attributes.set(this, void 0);
         _Component_children.set(this, void 0);
         _Component_eventHandlers.set(this, void 0);
+        _Component_cssStrings.set(this, void 0);
+        _Component_styleNodes.set(this, void 0);
+        _Component_params.set(this, void 0);
         _Component_node.set(this, void 0);
-        const { chain, tag, namespace, attributes, children, update, render, updateChild, renderChild } = params;
+        const { name, chain, tag, namespace, attributes, children, update, render, updateChild, renderChild } = params;
+        __classPrivateFieldSet(this, _Component_params, params, "f");
         const tag_ = tag !== null && tag !== void 0 ? tag : 'div';
-        __classPrivateFieldSet(this, _Component_id, 'fid' + (++Component.ID_TOP), "f");
-        __classPrivateFieldSet(this, _Component_name, this.constructor.name, "f");
+        __classPrivateFieldSet(this, _Component_name, name !== null && name !== void 0 ? name : this.constructor.name, "f");
+        __classPrivateFieldSet(this, _Component_id, (__classPrivateFieldGet(this, _Component_name, "f") ? __classPrivateFieldGet(this, _Component_name, "f") : 'Component') + '-' + (++Component.ID_TOP), "f");
         __classPrivateFieldSet(this, _Component_chain, chain
             ? chain.concat(Component._sGetChain(this))
             : Component._sGetChain(this), "f");
+        if (name)
+            __classPrivateFieldGet(this, _Component_chain, "f").unshift(name);
         __classPrivateFieldSet(this, _Component_tag, tag_.toLowerCase(), "f");
         if (update)
             this.updateCb = update.bind(this);
@@ -66,7 +75,7 @@ class Component {
             this.setAttributes(attributes);
             this.updateAttributes();
         }
-        if (Component.SET_NODE_FID) {
+        if (Component.SET_NODE_FID_ATTRIBUTE) {
             __classPrivateFieldGet(this, _Component_node, "f").setAttribute('fid', __classPrivateFieldGet(this, _Component_id, "f"));
         }
         // children
@@ -80,7 +89,8 @@ class Component {
         return this;
     }
     alter(params) {
-        const { attributes, children, update, render } = params;
+        __classPrivateFieldSet(this, _Component_params, merge(params, __classPrivateFieldGet(this, _Component_params, "f")), "f");
+        const { attributes, children, update, render } = __classPrivateFieldGet(this, _Component_params, "f");
         if (attributes) {
             this.setAttributes(attributes);
             this.updateAttributes();
@@ -210,6 +220,33 @@ class Component {
             __classPrivateFieldGet(this, _Component_node, "f").addEventListener(type, defHandler);
         }
     }
+    styled(format, ...args) {
+        let css = format[0];
+        const length = args.length;
+        for (let i = 0; i < length; i++) {
+            const arg = args[i];
+            if (arg instanceof Function)
+                css += arg(this) + format[i + 1];
+            else
+                css += arg + format[i + 1];
+        }
+        this._mAddStyle(css);
+        return this;
+    }
+    _mAddStyle(css) {
+        if (!__classPrivateFieldGet(this, _Component_cssStrings, "f"))
+            __classPrivateFieldSet(this, _Component_cssStrings, new Array, "f");
+        if (!__classPrivateFieldGet(this, _Component_styleNodes, "f"))
+            __classPrivateFieldSet(this, _Component_styleNodes, new Array, "f");
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = css;
+        if (__classPrivateFieldGet(this, _Component_name, "f"))
+            styleElement.setAttribute('for', __classPrivateFieldGet(this, _Component_id, "f"));
+        styleElement.setAttribute('index', __classPrivateFieldGet(this, _Component_styleNodes, "f").length.toFixed());
+        __classPrivateFieldGet(this, _Component_cssStrings, "f").push(css);
+        __classPrivateFieldGet(this, _Component_styleNodes, "f").push(styleElement);
+        document.head.appendChild(styleElement);
+    }
     _mProcessAttribute(attribute) {
         if (attribute.name.indexOf('on') === 0) {
             if (typeof attribute.value === 'function') {
@@ -260,8 +297,8 @@ class Component {
     }
 }
 exports.Component = Component;
-_Component_id = new WeakMap(), _Component_name = new WeakMap(), _Component_namespace = new WeakMap(), _Component_chain = new WeakMap(), _Component_tag = new WeakMap(), _Component_attributes = new WeakMap(), _Component_children = new WeakMap(), _Component_eventHandlers = new WeakMap(), _Component_node = new WeakMap();
-Component.SET_NODE_FID = false;
+_Component_id = new WeakMap(), _Component_name = new WeakMap(), _Component_namespace = new WeakMap(), _Component_chain = new WeakMap(), _Component_tag = new WeakMap(), _Component_attributes = new WeakMap(), _Component_children = new WeakMap(), _Component_eventHandlers = new WeakMap(), _Component_cssStrings = new WeakMap(), _Component_styleNodes = new WeakMap(), _Component_params = new WeakMap(), _Component_node = new WeakMap();
+Component.SET_NODE_FID_ATTRIBUTE = true;
 Component.ID_TOP = 0;
 /**
  * Merges the two parameter ojects with the `higherPriorityParams`

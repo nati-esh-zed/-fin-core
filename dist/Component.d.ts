@@ -22,6 +22,7 @@ export interface RenderChildFn {
     (component?: Component, child?: ComponentStoredChildType): void;
 }
 export interface Params {
+    name?: string;
     chain?: Array<string>;
     tag?: string;
     namespace?: string | undefined;
@@ -42,7 +43,7 @@ export interface ComponentAlterParams {
 }
 export declare class Component {
     #private;
-    static SET_NODE_FID: boolean;
+    static SET_NODE_FID_ATTRIBUTE: boolean;
     static ID_TOP: number;
     updateCb?: UpdateFn;
     renderCb?: RenderFn;
@@ -57,6 +58,9 @@ export declare class Component {
     get children(): ComponentStoredChildType[] | undefined;
     get eventHandlers(): EventHandler[] | undefined;
     get node(): HTMLElement | SVGElement;
+    get cssStrings(): string[] | undefined;
+    get styleNodes(): HTMLStyleElement[] | undefined;
+    get params(): Params;
     constructor(params?: Params);
     alter(params: ComponentAlterParams): this;
     cloneAttribute(attribute: ComponentAttributeType): any;
@@ -70,6 +74,8 @@ export declare class Component {
     updateChild(child: ComponentStoredChildType): void;
     render(): HTMLElement | SVGElement;
     addEventHandler(eventHandler: EventHandler): void;
+    styled(format: TemplateStringsArray, ...args: any): this;
+    private _mAddStyle;
     private _mProcessAttribute;
     private _mUpdateAttribute;
     private _mUpdate;
